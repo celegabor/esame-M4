@@ -1,0 +1,27 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+#body{
+    background-color: rgb(224, 224, 159);
+    padding: 1.3em;
+    font-family: 'Caveat', cursive;
+    /* font-family: 'Dancing Script', cursive;
+    font-family: 'Playfair Display', serif;
+    font-family: 'Roboto', sans-serif;
+    font-family: 'Shadows Into Light', cursive; */
+}
+
+header{
+    font-size: 3em;
+}
+
+
+/* header */
+
+/* main */
+
+/* footer */
