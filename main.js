@@ -64,12 +64,12 @@ async function createProductCard(product) {
 
     // bottone togli carrello
     const removeCart = document.createElement('button');
-    removeCart.classList.add('button-cart-remove')
+    removeCart.classList.add('button-cart-remove');
     const cartIconRemove = document.createElement('i');
     cartIconRemove.classList.add('cart-custom-remove', 'fa-solid', 'fa-trash-can');
     removeCart.appendChild(cartIconRemove);
 
-    removeCart.addEventListener('click', () => removeFromCart(product));
+    removeCart.addEventListener('click', () => removeFromCart(product)); 
     card.appendChild(removeCart);
 
     container.appendChild(card);
@@ -82,9 +82,9 @@ function removeFromCart(product) {
         cartItems.splice(index, 1);
         updateCartView();
     }
+    totalPrice();
 }
-
-  
+ 
 // renderizza le card
 async function renderProducts() {
 const products = await fetchData();
@@ -100,13 +100,15 @@ const products = await fetchData();
     products.forEach(product => {
         createProductCard(product);
     });
+
 }
-  
 
 // funzione push card
 function addToCart(product) {
     cartItems.push(product);
     updateCartView();
+
+    totalPrice();
 }
 
 // funzione che cre gli oggetti x carrello
@@ -160,5 +162,18 @@ function updateCartView() {
     cartBadge.textContent = cartItems.length.toString();
 }
 
+// funzione totale prezzo carrello
+function totalPrice() {
+    const prezzo = document.getElementById('totale-prezzo');
+    let totalPrice = 0;
+
+    cartItems.forEach(product => {
+        totalPrice += product.price;
+    });
+
+    prezzo.innerHTML = `Totale: ${totalPrice.toFixed(2)} €`;
+}
+
+totalPrice();
 renderProducts();
 updateCartView();

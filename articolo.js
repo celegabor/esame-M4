@@ -1,7 +1,5 @@
-
 const endpoint = 'https://striveschool-api.herokuapp.com/api/product/';
 const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGUzOTY4ZjFmMTc1YzAwMTRjNTU4ZmQiLCJpYXQiOjE2OTI3MjE2NzgsImV4cCI6MTY5MzkzMTI3OH0.uNBUHkZq2AOSxddsAA8tL8SNCahQtzLc4j7iLUr5lq0"; 
-
 
 async function fetchData() {
     try {
@@ -16,7 +14,6 @@ async function fetchData() {
         }
 
         const data = await response.json();
-        console.log(data);
         return data;
     } catch (error) {
         console.log('Errore nel recupero dei dati:', error);
@@ -24,20 +21,58 @@ async function fetchData() {
     }
 }
 
-const form = document.getElementById('articolo-form');
+// tabella
+async function populateTable() {
+  const products = await fetchData();
+  const table = document.getElementById('tabellaOggettiBackend');
+  
+  const headerRow = table.insertRow(0);
+  const headers = ['Nome', 'Descrizione', 'Brand', 'Prezzo', 'Immagine'];
+  
+  headers.forEach(headerText => {
+      const headerCell = document.createElement('th');
+      headerCell.textContent = headerText;
+      headerRow.appendChild(headerCell);
+  });
 
+  products.forEach(product => {
+      const row = table.insertRow();
+      const cellName = row.insertCell(0);
+      const cellDescription = row.insertCell(1);
+      const cellBrand = row.insertCell(2);
+      const cellPrice = row.insertCell(3);
+      const cellImage = row.insertCell(4);
+
+
+      cellName.textContent = product.name;
+      cellName.classList.add('alrticoloResultsTable');
+
+      cellDescription.textContent = product.description;
+      cellDescription.classList.add('alrticoloResultsTable');
+
+      cellBrand.textContent = product.brand;
+      cellBrand.classList.add('alrticoloResultsTable');
+
+      cellPrice.textContent = `${product.price} €`;
+      cellPrice.classList.add('alrticoloResultsTable');
+
+      cellImage.innerHTML = `<img src="${product.imageUrl}" alt="${product.name}" style="max-height: 50px;">`;
+      cellImage.classList.add('alrticoloResultsTable');
+
+  });
+}
+
+const form = document.getElementById('articolo-form');
 const nameInput = document.getElementById('name');
 const descriptionInput = document.getElementById('description');
 const brandInput = document.getElementById('brand');
 const imageUrlInput = document.getElementById('imageUrl');
 const priceInput = document.getElementById('price');
 
-
-// creazione oggetto con metodo POST
 form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    const isFormValid = handelFormValidation();
+    const isFormValid = handleFormValidation();
     if (!isFormValid) return false;
 
     const articolo = {
@@ -59,6 +94,7 @@ form.addEventListener('submit', async (event) => {
         });
 
         if (response.ok) {
+            populateTable(); // Popola la tabella con l'oggetto appena creato
             window.location.href = 'index.html';
         } else {
             alert('Si è verificato un errore durante la creazione dell\'articolo.');
@@ -69,87 +105,60 @@ form.addEventListener('submit', async (event) => {
     }
 });
 
-// controllo del form che sia valido
-function handelFormValidation() {
-  
-  const validation = inputForm()
-  let isValid = true;
+// validazione form
+function handleFormValidation() {
+    const validation = inputForm();
+    let isValid = true;
 
-  if (!validation.isValid) {
-
-    for (const field in validation.errors) {
-      const errorElement = document.getElementById(`${field}-error`)
-      errorElement.textContent = '';
-      errorElement.textContent = validation.errors[field]
+    if (!validation.isValid) {
+        for (const field in validation.errors) {
+            const errorElement = document.getElementById(`${field}-error`);
+            errorElement.textContent = validation.errors[field];
+        }
+        isValid = false;
     }
 
-    isValid = false
-    
-  }
-
-  return isValid
-
+    return isValid;
 }
 
-// validazione indirizzo http per url image
+// controllo url
 const isValidUrl = url => {
-  const urlPattern = /^(http|https):\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,}(\/\S*)?$/;
-  return urlPattern.test(url);
+    const urlPattern = /^(http|https):\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,}(\/\S*)?$/;
+    return urlPattern.test(url);
 };
 
-// validazione numeri
+// contorllo numero
 const isValidNumber = value => {
-  return !isNaN(parseFloat(value)) && isFinite(value);
+    return !isNaN(parseFloat(value)) && isFinite(value);
 };
 
-// crea il form
+// funzione controlli/errori form
 function inputForm() {
-  const errors = {}
+    const errors = {};
 
-  const name = document.getElementById('name').value
-  const description = document.getElementById('description').value
-  const brand = document.getElementById('brand').value
-  const imageUrl = document.getElementById('imageUrl').value
-  const price = document.getElementById('price').value
+    const name = nameInput.value;
+    const description = descriptionInput.value;
+    const brand = brandInput.value;
+    const imageUrl = imageUrlInput.value;
+    const price = priceInput.value;
 
-  // verifica nome
-  if (!name) errors.name = "Il campo nome è obbligatorio."
-  else errors.name = "";
+    if (!name) errors.name = "Il campo nome è obbligatorio.";
+    if (!description) errors.description = "Il campo description è obbligatorio.";
+    if (!brand) errors.brand = "Il campo brand è obbligatorio.";
+    if (!imageUrl) errors.imageUrl = "Il campo imageUrl è obbligatorio.";
+    else if (!isValidUrl(imageUrl)) errors.imageUrl = "L'URL dell'immagine non è valido.";
+    if (!price) errors.price = "Il campo price è obbligatorio.";
+    else if (!isValidNumber(price)) errors.price = "Inserisci un numero valido.";
 
-  // veriifica descrizione
-  if (!description) errors.description = "Il campo description è obbligatorio." 
-  else errors.description = "";
-
-  // verifica brand
-  if (!brand) errors.brand = "Il campo brand è obbligatorio."
-  else errors.brand = "";
-
-  // verifica img con restrizione
-  if (!imageUrl) {
-    errors.imageUrl = "Il campo imageUrl è obbligatorio.";
-  } else if (!isValidUrl(imageUrl)) {
-    errors.imageUrl = "L'URL dell'immagine non è valido.";
-  } else {
-    errors.imageUrl = "";
-  }
-
-  // verifica prezzo con restrizione
-  if (!price) errors.price = "Il campo price è obbligatorio.";
-  else if (!isValidNumber(price)) {
-    errors.price = "Inserisci un numero valido.";
-  } else {
-    errors.price = "";
-  }
-
-
-  return {
-    isValid: Object.values(errors).every(value => value === ''),
-    errors
-  }
-  
+    return {
+        isValid: Object.values(errors).every(value => value === ''),
+        errors
+    };
 }
 
-// ritorna a index.html
+// funzione torna a index.html
 function index() {
-  window.location.href = 'index.html' 
- }
+    window.location.href = 'index.html';
+}
+
+populateTable();

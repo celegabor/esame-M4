@@ -1,0 +1,68 @@
+#body-articolo{
+    background-color: rgba(0, 0, 0, 0.379);
+    color: white;
+}
+
+h1{
+    width: 100%;
+    text-align: center;
+}
+
+#buttonBack{
+    margin: 1em;
+    background-color: green;
+    padding: 0.3em;
+    color: white;
+    border-radius: 20%;
+    transition: all 0.1s linear;
+}
+
+#buttonBack:hover{
+    scale: 1.05;
+    background-color: rgb(51, 191, 61);
+    filter: drop-shadow(0px 0px 5px lightgreen);
+}
+
+#container-save-button{
+    width: 100%;
+    text-align: center;
+}
+
+#save-button{
+    margin: 1em;
+    background-color: rgb(51, 62, 162);
+    padding: 0.3em;
+    width: 60%;
+    color: white;
+    border-radius: 20%;
+    border-bottom: 2px solid white;
+    transition: all 0.1s linear;
+}
+
+#save-button:hover{
+    scale: 1.05;
+    background-color: rgb(80, 55, 222);
+    border-bottom: 3px solid green;
+    filter: drop-shadow(0px 0px 5px lightgreen);
+}
+
+#articolo-form{
+    background-color: grey;
+    padding: 2em;
+    border: 5px solid green;
+}
+
+#container-results{
+    padding: 2em;
+    margin: 2em;
+    background-color: black;
+}
+
+#tabellaOggettiBackend{
+    width: 100%;
+}
+
+.alrticoloResultsTable{
+    padding: 0.3em;
+    border-bottom: 1px solid rgba(0, 128, 0, 0.361);
+}

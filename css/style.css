@@ -6,7 +6,7 @@
 }
 
 #body{
-    background-color: rgb(224, 224, 159);
+    background-color: rgb(169, 159, 224);
     padding: 1em;
     font-family: 'Caveat', cursive;
     /* font-family: 'Dancing Script', cursive;
@@ -123,6 +123,18 @@
     color: white;
     border-radius: 20%;
     margin: 0.2em 0.7em;
+    filter: drop-shadow(0px 0px 5px white);
+}
+
+#totale-prezzo{
+    padding: 1.5em;
+    font-size: 1.2em;
+    width: 100%;
+    text-align: right;
+    border-top: 2px solid white;
+    border-bottom: 2px solid white;
+    margin-bottom: 1.4em;
+    background-color: black;
     filter: drop-shadow(0px 0px 5px white);
 }
 
