@@ -7,7 +7,7 @@
 
 #body{
     background-color: rgb(224, 224, 159);
-    padding: 1.3em;
+    padding: 1em;
     font-family: 'Caveat', cursive;
     /* font-family: 'Dancing Script', cursive;
     font-family: 'Playfair Display', serif;
@@ -15,13 +15,172 @@
     font-family: 'Shadows Into Light', cursive; */
 }
 
-header{
-    font-size: 3em;
-}
-
-
 /* header */
 
+#logo{
+    height: 3em;
+    width: 3em;
+    border-radius: 50%;
+    border: 1px solid black;
+}
+
+.navbar a{
+    transition: all 0.1s linear;
+    border-radius: 20%;
+}
+
+.navbar li:hover a{
+    background-color: black;
+    border-bottom: 3px solid green;
+    scale: 1.1;
+    color: white !important;
+    padding: 0.2em 0.4em !important;
+}
+
 /* main */
+
+#button label{
+    font-size: 1.4em;
+    width: 100vw;
+}
+
+#buttonIns{
+    padding: 0.4em;
+    border-radius: 20%;
+    border: 2px solid black;
+    border-bottom: 3px solid black;
+    border-top: 1px solid black;
+    transition: all 0.1s linear;
+}
+
+#buttonIns:hover{
+    background-color: black;
+    color: white;
+    border: 2px solid green;
+    border-bottom: 3px solid green;
+    border-top: 1px solid green;
+    scale: 1.1;
+}
+
+#container-prodotti{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.product-card{
+    width: 20%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    background-color: rgba(0, 0, 0, 0.415);
+    color: white;
+    border-radius: 10%;
+    margin: 1em;
+    padding: 0.5em;
+    border: 1px solid black;
+    filter: drop-shadow(1px 1px 15px rgba(0, 0, 0, 0.592));
+    transition: all 0.1s linear;
+}
+
+.product-card:hover{
+    scale: 1.05;
+    background-color: rgba(0, 0, 0, 0.647);
+    filter: drop-shadow(1px 1px 10px lightgreen);
+
+}
+
+.product-card img{
+    width: 100%;
+    object-fit: contain;
+    padding: 0.5em;
+}
+
+/* carrello */
+
+.btn-custom{
+    padding: 0.7em;
+    border-radius: 20%;
+    background-color: rgba(0, 0, 0, 0.395) ;
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    transition: all 0.2s linear;
+}
+
+.btn-custom:hover{
+    scale: 1.2;
+    padding: 0.7em;
+    border-radius: 30%;
+    background-color: rgba(0, 0, 0, 0.6) ;
+}
+
+.badge-custom{
+    font-size: 1.1em;
+}
+
+.button-cart{
+    background-color: transparent;
+    border: 2px solid black;
+    color: white;
+    border-radius: 20%;
+    margin: 0.2em 0.7em;
+    filter: drop-shadow(0px 0px 5px white);
+}
+
+.button-cart:hover{
+    scale: 1.1;
+    background-color: black;
+    filter: drop-shadow(0px 0px 5px lightgreen);
+}
+
+.cart-custom, .cart-custom-remove{
+    padding: 0.3em;
+}
+
+.button-cart-remove{
+    background-color: transparent;
+    border: 2px solid black;
+    color: white;
+    border-radius: 20%;
+    margin: 0.2em 0.7em;
+    filter: drop-shadow(0px 0px 8px white);
+}
+
+.button-cart-remove:hover{
+    scale: 1.1;
+    background-color: black;
+    filter: drop-shadow(0px 0px 5px rgb(245, 85, 41));
+}
+
+.cart-card{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 10vh;
+    width: 100%;
+    border-bottom: 1px solid green;
+    padding: 0.4em;
+    margin-bottom: 2em;
+    border-bottom-left-radius: 20%;
+}
+
+.cart-card img{
+    border-radius: 20%;
+    height: 90%;
+}
+
+.name-cart{
+    color: white;
+}
+
+.price-cart{
+    color: green;
+}
+
+.containerCartButtons{
+    display: flex;
+    flex-direction: column;
+    scale: 0.8;
+}
+
 
 /* footer */
