@@ -39,9 +39,14 @@
 
 /* main */
 
+#button-inserimento{
+    background-color: rgba(0, 0, 255, 0.158);
+    padding: 0.5em;
+    text-align: center;
+}
+
 #button label{
     font-size: 1.4em;
-    width: 100vw;
 }
 
 #buttonIns{
@@ -60,11 +65,13 @@
     border-bottom: 3px solid green;
     border-top: 1px solid green;
     scale: 1.1;
+    margin: 0 10px;
 }
 
 #container-prodotti{
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .product-card{
@@ -94,6 +101,29 @@
     padding: 0.5em;
 }
 
+.offcanvas{
+    z-index: 2222 ;
+}
+
+.spinner-container{
+    padding: 5em;
+    background-color: rgba(0, 0, 0, 0.45);
+    border-radius: 20%;
+    position: fixed;
+    top: 30%;
+    right: 50%;
+    transform: translateX(50%) translateY(50%);
+    color: greenyellow;
+}
+
+#scrittaNienteProdottiTrovati{
+    width: 100%;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.464);
+    color: red;
+    font-size: 2em;
+}
+
 /* carrello */
 
 .btn-custom{
@@ -104,6 +134,7 @@
     bottom: 50px;
     right: 50px;
     transition: all 0.2s linear;
+    z-index: 1111;
 }
 
 .btn-custom:hover{
@@ -124,6 +155,21 @@
     border-radius: 20%;
     margin: 0.2em 0.7em;
     filter: drop-shadow(0px 0px 5px white);
+}
+
+.button-cart-modifica{
+    background-color: transparent;
+    padding: 1px 4px;
+    border: 2px solid black;
+    color: white;
+    border-radius: 20%;
+    margin: 0.2em 0.7em;
+    filter: drop-shadow(0px 0px 5px white);
+}
+.button-cart-modifica:hover{
+    scale: 1.1;
+    background-color: black;
+    filter: drop-shadow(0px 0px 5px rgb(1, 55, 251));
 }
 
 #totale-prezzo{
@@ -194,5 +240,92 @@
     scale: 0.8;
 }
 
+#risultati-scritta{
+    width: 100%;
+    text-align: end;
+}
+
+.buttonBack{
+    margin: 1em;
+    background-color: green;
+    padding: 1em;
+    color: white;
+    border-radius: 20%;
+    transition: all 0.1s linear;
+}
+
+.buttonBack:hover{
+    scale: 1.05;
+    background-color: rgb(51, 191, 61);
+    filter: drop-shadow(0px 0px 5px rgb(0, 0, 0));
+}
 
 /* footer */
+
+
+@media  screen and (max-width: 1000px) {
+    .product-card{
+        scale: 0.8;
+        margin: 0em;
+        width: 30%;
+        padding: 1em;
+    }
+
+    .product-card:hover{
+        scale: 0.85;   
+    }
+
+    .product-card p, .product-card h2{
+        scale: 0.8;
+    }
+}
+@media  screen and (max-width: 800px) {
+    .product-card{
+        width: 40%;
+        scale: 0.7;
+        margin: 0em;
+        padding: 2em;
+    }
+
+    .product-card:hover{
+        scale: 0.75;   
+    }
+
+    .product-card p, .product-card h2{
+        scale: 1.1;
+    }
+}
+
+@media  screen and (max-width: 600px) {
+    .product-card{
+        width: 50%;
+        scale: 0.7;
+        margin: 0em;
+        padding: 2em;
+    }
+
+    .product-card:hover{
+        scale: 0.75;   
+    }
+
+    .product-card p, .product-card h2{
+        scale: 1.1;
+    }
+}
+
+@media  screen and (max-width: 450px) {
+    .product-card{
+        width: 80%;
+        scale: 0.7;
+        margin: 0em;
+        padding: 2em;
+    }
+
+    .product-card:hover{
+        scale: 0.75;   
+    }
+
+    .product-card p, .product-card h2{
+        scale: 1.1;
+    }
+}
