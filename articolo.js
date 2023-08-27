@@ -1,7 +1,17 @@
 const endpoint = 'https://striveschool-api.herokuapp.com/api/product/';
 const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGUzOTY4ZjFmMTc1YzAwMTRjNTU4ZmQiLCJpYXQiOjE2OTI3MjE2NzgsImV4cCI6MTY5MzkzMTI3OH0.uNBUHkZq2AOSxddsAA8tL8SNCahQtzLc4j7iLUr5lq0"; 
 
-async function fetchData() {
+const form = document.getElementById('articolo-form');
+const userIdInput = document.getElementById('user-id');
+const nameInput = document.getElementById('name');
+const descriptionInput = document.getElementById('description');
+const brandInput = document.getElementById('brand');
+const imageUrlInput = document.getElementById('imageUrl');
+const priceInput = document.getElementById('price');
+
+async function fetchDati() {
+
+  
     try {
         const response = await fetch(endpoint, {
             headers: {
@@ -14,6 +24,10 @@ async function fetchData() {
         }
 
         const data = await response.json();
+
+        setTimeout( () => {
+          document.querySelector('.spinner-container').classList.add('d-none')}, 300
+        )
         return data;
     } catch (error) {
         console.log('Errore nel recupero dei dati:', error);
@@ -23,11 +37,16 @@ async function fetchData() {
 
 // tabella
 async function populateTable() {
-  const products = await fetchData();
+  const products = await fetchDati();
+  document.getElementById('titoloPagArticoli').innerHTML = '----AGGIUNGI UN NUOVO ARTICOLO----'
   const table = document.getElementById('tabellaOggettiBackend');
+
+  while (table.rows.length > 0) {
+    table.deleteRow(0);
+  }
   
   const headerRow = table.insertRow(0);
-  const headers = ['Nome', 'Descrizione', 'Brand', 'Prezzo', 'Immagine'];
+  const headers = ['-Nome', '-Descrizione', '-Brand', '-Prezzo', '-Immagine', '-Id', '-Modifica', '-Cancella'];
   
   headers.forEach(headerText => {
       const headerCell = document.createElement('th');
@@ -36,39 +55,175 @@ async function populateTable() {
   });
 
   products.forEach(product => {
-      const row = table.insertRow();
-      const cellName = row.insertCell(0);
-      const cellDescription = row.insertCell(1);
-      const cellBrand = row.insertCell(2);
-      const cellPrice = row.insertCell(3);
-      const cellImage = row.insertCell(4);
+    const row = table.insertRow();
+    const cellName = row.insertCell(0);
+    const cellDescription = row.insertCell(1);
+    const cellBrand = row.insertCell(2);
+    const cellPrice = row.insertCell(3);
+    const cellImage = row.insertCell(4);
+    const cellId = row.insertCell(5)
+    const cellModifica = row.insertCell(6);
+    const cellCancella = row.insertCell(7);
+
+    cellName.textContent = product.name;
+    cellName.classList.add('alrticoloResultsTable');
+
+    cellDescription.textContent = product.description;
+    cellDescription.classList.add('alrticoloResultsTable');
+
+    cellBrand.textContent = product.brand;
+    cellBrand.classList.add('alrticoloResultsTable');
+
+    cellPrice.textContent = `${product.price} €`;
+    cellPrice.classList.add('alrticoloResultsTable');
+
+    cellImage.innerHTML = `<img src="${product.imageUrl}" alt="${product.name}" style="max-height: 50px;">`;
+    cellImage.classList.add('alrticoloResultsTable');
+
+    cellId.textContent = `${product._id}`;
+    cellId.classList.add('alrticoloResultsTable');
+    cellId.classList.add('idCard')
+
+    cellModifica.innerHTML = `<i class="fa-solid fa-pen-to-square" style="color: #00f900; font-size: 0.6em; cursor: pointer;"> modifica</i>`;
+    cellModifica.classList.add('alrticoloResultsTable');
+
+    cellCancella.innerHTML = `<i class="fa-solid fa-square-xmark" style="color: #ff2600;font-size: 0.6em; cursor: pointer;"> cancella</i>`;
+    cellCancella.classList.add('alrticoloResultsTable');
+
+    cellModifica.addEventListener('click', () => modifica(product._id));
+
+    cellCancella.addEventListener('click', () => cancella(product._id));
+
+    cellModifica.addEventListener('click', async (event) => {
+      event.preventDefault();
 
 
-      cellName.textContent = product.name;
-      cellName.classList.add('alrticoloResultsTable');
+      document.getElementById('titoloPagArticoli').innerHTML = '----MODIFICA I TUOI ARTICOLI----';
 
-      cellDescription.textContent = product.description;
-      cellDescription.classList.add('alrticoloResultsTable');
+      
+      document.querySelector('.spinner-container').classList.remove('d-none');
+      
 
-      cellBrand.textContent = product.brand;
-      cellBrand.classList.add('alrticoloResultsTable');
+      await modifica(product._id);
 
-      cellPrice.textContent = `${product.price} €`;
-      cellPrice.classList.add('alrticoloResultsTable');
+      setTimeout( () => {
+        document.querySelector('.spinner-container').classList.add('d-none')}, 300
+      )
+    });
+  
+    cellCancella.addEventListener('click', async (event) => {event.stopPropagation();
+    
 
-      cellImage.innerHTML = `<img src="${product.imageUrl}" alt="${product.name}" style="max-height: 50px;">`;
-      cellImage.classList.add('alrticoloResultsTable');
+    document.getElementById('titoloPagArticoli').innerHTML = '----AGGIUNGI UN NUOVO ARTICOLo----';
 
-  });
+    
+        });
+      });
 }
 
-const form = document.getElementById('articolo-form');
-const nameInput = document.getElementById('name');
-const descriptionInput = document.getElementById('description');
-const brandInput = document.getElementById('brand');
-const imageUrlInput = document.getElementById('imageUrl');
-const priceInput = document.getElementById('price');
+// funzione cancella DELETE
+async function cancella(productId) {
+  const shouldDelete = confirm('Sei sicuro di voler cancellare questo prodotto?');
+  if (!shouldDelete) {
+    return;
+  }
 
+  const deleteEndpoint = `https://striveschool-api.herokuapp.com/api/product/${productId}`;
+
+  try {
+    const response = await fetch(deleteEndpoint, {
+      method: 'DELETE',
+      headers: {
+        "Authorization": `Bearer ${accessToken}`
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Errore nella richiesta di cancellazione');
+    }
+
+    console.log('delete');
+
+    // rica riscrivo la tabella
+    populateTable();
+
+
+    const successMessage = document.createElement('div');
+    successMessage.textContent = 'L\'articolo è stato cancellato con successo!!! ...attendi...';
+    successMessage.style.backgroundColor = 'green';
+    successMessage.style.color = 'white';
+    successMessage.style.width = '100%'
+    successMessage.style.padding = '20px';
+    successMessage.style.position = 'fixed';
+    successMessage.style.top = '5%';
+    successMessage.style.border = '10px solid lightgreen'
+    successMessage.style.left = '50%';
+    successMessage.style.transform = 'translate(-50%, -50%)';
+    successMessage.style.transition = 'opacity 0.5s';
+
+    document.body.appendChild(successMessage);
+
+    setTimeout(() => {
+      successMessage.style.opacity = '0';
+      successMessage.remove();
+      
+      window.location.href = 'index.html'
+    }, 2000);
+
+    
+  } catch (error) {
+    console.log('Errore nella cancellazione del prodotto:', error);
+  }
+}
+
+// funzione modifica che va a richiamare recuperadatiutente
+async function modifica(userId) {
+  history.pushState(null, null, `articolo.html?id=${userId}`);
+
+  await recuperaDatiUtente();
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// funzione per recuperare i dati x modifica tramite id nella query string
+async function recuperaDatiUtente() {
+  const datiDaQS = new URLSearchParams(window.location.search);
+  const userId = datiDaQS.get('id')
+
+  if (userId) {
+
+    const userEndpoint = `${endpoint}${userId}`;
+    
+    try {
+        const response = await fetch(userEndpoint, {
+            headers: {
+                "Authorization": `Bearer ${accessToken}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Errore nella richiesta');
+        }
+
+        const user = await response.json();
+
+        userIdInput.value = user._id;
+        nameInput.value = user.name;
+        descriptionInput.value = user.description;
+        brandInput.value = user.brand;
+        imageUrlInput.value = user.imageUrl;
+        priceInput.value = user.price;
+
+    } catch (error) {
+        console.log('Errore nel recupero dei dati utente:', error);
+    } 
+    
+  }else {
+        console.log('nessun utente trovato');
+  }
+}
+
+// POST/PUT
 form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
@@ -84,6 +239,65 @@ form.addEventListener('submit', async (event) => {
     }
 
     try {
+
+
+      if (userIdInput.value) {
+
+        console.log('put');
+        // Effettua una richiesta PUT per aggiornare l'articolo esistente
+        const updateUserEndpoint = `${endpoint}${userIdInput.value}`;
+        const updatedArticolo = {
+            name: nameInput.value,
+            description: descriptionInput.value,
+            brand: brandInput.value,
+            imageUrl: imageUrlInput.value,
+            price: priceInput.value,
+        };
+    
+        try {
+            const response = await fetch(updateUserEndpoint, {
+                method: 'PUT',
+                body: JSON.stringify(updatedArticolo),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                    "Authorization": `Bearer ${accessToken}`
+                }
+            });
+    
+            if (response.ok) {
+                populateTable(); // Aggiorna la tabella con i nuovi dati
+                
+                const successMessage = document.createElement('div');
+                successMessage.textContent = 'L\'articolo è stato MODIFICATO con successo!!! ...attendi...';
+                successMessage.style.backgroundColor = 'blue';
+                successMessage.style.width = '100%'
+                successMessage.style.color = 'white';
+                successMessage.style.padding = '20px';
+                successMessage.style.position = 'fixed';
+                successMessage.style.top = '5%';
+                successMessage.style.border = '4px solid lightgreen'
+                successMessage.style.left = '50%';
+                successMessage.style.transform = 'translate(-50%, -50%)';
+                successMessage.style.transition = 'opacity 0.5s';
+                
+                document.body.appendChild(successMessage);
+                
+                setTimeout( () => {
+                  window.location.href = 'index.html';}, 2000
+                )
+                 
+            } else {
+                alert('Si è verificato un errore durante l\'aggiornamento dell\'articolo.');
+            }
+        } catch (error) {
+            console.log('Errore durante l\'aggiornamento: ', error);
+            alert('Si è verificato un errore durante l\'aggiornamento.');
+        }
+    } else {
+
+      console.log('post');
+
+        // Codice per la creazione di un nuovo articolo
         const response = await fetch(endpoint, {
             method: 'POST',
             body: JSON.stringify(articolo),
@@ -92,13 +306,37 @@ form.addEventListener('submit', async (event) => {
                 "Authorization": `Bearer ${accessToken}`
             }
         });
-
+    
         if (response.ok) {
             populateTable(); // Popola la tabella con l'oggetto appena creato
-            window.location.href = 'index.html';
+
+            setTimeout( () => {
+              window.location.href = 'index.html';}, 2000
+            )
+
+
+            const successMessage = document.createElement('div');
+            successMessage.textContent = 'L\'articolo è stato CREATO con successo!!! ...attendi...';
+            successMessage.style.backgroundColor = 'green';
+            successMessage.style.width = '100%'
+            successMessage.style.color = 'white';
+            successMessage.style.padding = '20px';
+            successMessage.style.position = 'fixed';
+            successMessage.style.top = '5%';
+            successMessage.style.left = '50%';
+            successMessage.style.border = '4px solid lightgreen'
+            successMessage.style.transform = 'translate(-50%, -50%)';
+            successMessage.style.transition = 'opacity 0.5s';
+
+            document.body.appendChild(successMessage);
+
+
         } else {
             alert('Si è verificato un errore durante la creazione dell\'articolo.');
         }
+    }
+    
+       
     } catch (error) {
         console.log('Errore durante il salvataggio: ', error);
         alert('Si è verificato un errore durante il salvataggio.');
@@ -159,6 +397,11 @@ function inputForm() {
 // funzione torna a index.html
 function index() {
     window.location.href = 'index.html';
+}
+
+// funzione che va alla pag che crea articoli
+function aggArticolo() {
+  window.location.href = 'articolo.html' 
 }
 
 populateTable();

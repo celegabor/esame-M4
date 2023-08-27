@@ -1,9 +1,17 @@
 // array carrello
 const cartItems = [];
 
+// scritta ricerca index.html
+let risultatiScritta = document.getElementById('risultati-scritta')
+
 // funzione che va alla pag che crea articoli
 function aggArticolo() {
     window.location.href = 'articolo.html' 
+}
+
+// funzione torna a index.html
+function index() {
+    window.location.href = 'index.html';
 }
 
 // funzione fetch
@@ -22,12 +30,16 @@ async function fetchData() {
       }
   
       const data = await response.json();
+
+      setTimeout( () => {
+        document.querySelector('.spinner-container').classList.add('d-none')}, 300
+      )
       return data;
     } catch (error) {
       console.log('Errore nel recupero dei dati:', error);
       return [];
-    }
-  }
+    }  
+}
   
 // funzione che crea i prodotti
 async function createProductCard(product) {
@@ -35,6 +47,13 @@ async function createProductCard(product) {
 
     const card = document.createElement('div');
     card.classList.add('product-card');
+    card.addEventListener('click', () => redirectToProductDetails(product._id)); 
+
+    const id = document.createElement('p');
+    id.textContent = product._id;
+    id.classList.add('class-id-card')
+    id.classList.add('d-none');
+    card.appendChild(id);
 
     const image = document.createElement('img');
     image.src = product.imageUrl;
@@ -42,15 +61,19 @@ async function createProductCard(product) {
     card.appendChild(image);
 
     const name = document.createElement('h2');
-    name.textContent = product.name;
+    name.textContent = `NOME: ${product.name}`;
     card.appendChild(name);
 
     const description = document.createElement('p');
-    description.textContent = product.description;
+    description.textContent = `DESCRIZIONE: ${product.description}`;
     card.appendChild(description);
 
+    const brand = document.createElement('p');
+    brand.textContent = `BRAND: ${product.brand}`;
+    card.appendChild(brand);
+
     const price = document.createElement('p');
-    price.textContent = `Prezzo: ${product.price} €`;
+    price.textContent = `PREZZO: ${product.price} €`;
     card.appendChild(price);
 
     // bottone aggiungi carrello
@@ -59,7 +82,10 @@ async function createProductCard(product) {
     const cartIcon = document.createElement('i');
     cartIcon.classList.add('cart-custom', 'fa-solid', 'fa-cart-shopping');
     addToCartButton.appendChild(cartIcon);
-    addToCartButton.addEventListener('click', () => addToCart(product));
+    addToCartButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+        addToCart(product);
+    });
     card.appendChild(addToCartButton);
 
     // bottone togli carrello
@@ -69,10 +95,32 @@ async function createProductCard(product) {
     cartIconRemove.classList.add('cart-custom-remove', 'fa-solid', 'fa-trash-can');
     removeCart.appendChild(cartIconRemove);
 
-    removeCart.addEventListener('click', () => removeFromCart(product)); 
+    removeCart.addEventListener('click', (event) => {
+        event.stopPropagation(); 
+        removeFromCart(product);
+    });
     card.appendChild(removeCart);
 
+    // bottone vai a modifica
+    const modifica = document.createElement('button');
+    modifica.classList.add('button-cart-modifica');
+    const cartIconModifica = document.createElement('i');
+    cartIconModifica.classList.add('cart-custom-modifica', 'fa-solid', 'fa-pen');
+    modifica.appendChild(cartIconModifica);
+
+    modifica.addEventListener('click', (event) => {
+        event.stopPropagation(); 
+        aggArticolo()
+    });
+    card.appendChild(modifica);
+
     container.appendChild(card);
+}
+
+// funzione che manda su pag dettagli
+function redirectToProductDetails(productId) {
+    const productDetailsUrl = `dettagli.html?id=${productId}`;
+    window.location.href = productDetailsUrl;
 }
 
 // funzione per rimuovere card dal carrello
@@ -100,6 +148,7 @@ const products = await fetchData();
     products.forEach(product => {
         createProductCard(product);
     });
+    risultatiScritta.classList.add('d-none')
 
 }
 
@@ -111,7 +160,7 @@ function addToCart(product) {
     totalPrice();
 }
 
-// funzione che cre gli oggetti x carrello
+// funzione che crea gli oggetti x carrello
 function updateCartView() {
     const cartContainer = document.getElementById('carrelloAggiunte');
     cartContainer.innerHTML = '';
@@ -173,6 +222,52 @@ function totalPrice() {
 
     prezzo.innerHTML = `Totale: ${totalPrice.toFixed(2)} €`;
 }
+
+// funzione search
+async function searchProducts(event) {
+    event.preventDefault();
+
+    const searchInput = document.getElementById('searchInput').value.toLowerCase();
+
+    setTimeout( () => {
+        document.querySelector('.spinner-container').classList.remove('d-none')}, 300
+      )
+
+    const products = await fetchData(); 
+
+    const searchResultContainer = document.getElementById('risultatiSearch');
+
+    let svuotaMain = document.getElementById('container-prodotti')
+    svuotaMain.innerHTML = ""
+
+    risultatiScritta.classList.remove('d-none')
+
+    const trovaProducts = products.filter(product => {
+        const productName = product.name.toLowerCase();
+        const productBrand = product.brand.toLowerCase();
+        const productPrice = product.price.toString().toLowerCase();
+        return productName.includes(searchInput) || productBrand.includes(searchInput) || productPrice.includes(searchInput);
+    });
+
+    
+
+    setTimeout( () => {
+        document.querySelector('.spinner-container').classList.add('d-none')}, 300
+      )
+
+
+      const lengthProduct = trovaProducts.length;
+
+      if (lengthProduct > 0){
+        trovaProducts.forEach(product => {
+            createProductCard(product, searchResultContainer);
+            document.getElementById('scrittaNienteProdottiTrovati').innerHTML = `La tua ricerca ha prodotto ${lengthProduct} risultati!!!`
+        });
+      } else {
+        document.getElementById('scrittaNienteProdottiTrovati').innerHTML = 'Mi dispiace ma la tua ricerca non ha prodotto nessun risultato, controlla la ricerca o inserisci altre parole chiave!!!'
+    }
+}
+
 
 totalPrice();
 renderProducts();

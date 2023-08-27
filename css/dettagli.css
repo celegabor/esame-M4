@@ -1,0 +1,45 @@
+#body-dettagli{
+    background-color: rgb(169, 159, 224);
+    padding: 1em;
+    font-family: 'Caveat', cursive;
+    /* font-family: 'Dancing Script', cursive;
+    font-family: 'Playfair Display', serif;
+    font-family: 'Roboto', sans-serif;
+    font-family: 'Shadows Into Light', cursive; */
+}
+
+#section-card-dettagli{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.product-card-dettagli{
+    width: 50%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    background-color: rgba(0, 0, 0, 0.415);
+    color: white;
+    border-radius: 10%;
+    margin: 1em;
+    padding: 3em;
+    border: 3px solid black;
+    transition: all 0.1s linear;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.product-card-dettagli:hover{
+    scale: 1.05;
+    background-color: rgba(0, 0, 0, 0.647);
+    filter: drop-shadow(1px 1px 10px lightgreen);
+
+}
+
+.product-card-dettagli img{
+    width: 100%;
+    height: 40vh;
+    object-fit: contain;
+    padding: 0.5em;
+}

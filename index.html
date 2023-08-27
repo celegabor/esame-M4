@@ -47,10 +47,10 @@
                     </ul>
                   </li>
                 </ul>
-                <form class="d-flex" role="search">
-                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <form class="d-flex" role="search" onsubmit="searchProducts(event)">
+                  <input class="form-control me-2" type="search" id="searchInput" placeholder="Search" aria-label="Search">
                   <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
+              </form>
               </div>
             </div>
           </nav>
@@ -61,16 +61,17 @@
       <div class="container">
         <div class="row">
 
-          <!-- sezione TASTO inserisci articolo -->
-          <div class="col-4">
-            <div id="button">
-                <label for="buttonIns">Inserisci articolo</label>
-                <button id="buttonIns" onclick="aggArticolo()">Clicca x inserire</button>
-            </div>
-          </div>
-
+          
           <!-- sezione vuota -->
           <div class="col-4"></div>
+
+          <!-- sezione TASTO inserisci articolo -->
+          <div id="button-inserimento" class="col-4">
+            <div id="button">
+                <label for="buttonIns">Inserisci nuovo articolo</label>
+                <button id="buttonIns" onclick="aggArticolo()">Clicca x inserire un nuovo articolo</button>
+            </div>
+          </div>
 
           <!-- sezione carrello -->
           <div class="col-4">
@@ -96,6 +97,7 @@
 
                   <p>elementi aggiunti:</p>
 
+                  
                   <div id="carrelloAggiunte"></div>
                 </div>
                 <div id="totale-prezzo" style="color: white;"></div>
@@ -107,13 +109,26 @@
         </div>
       </div>
 
+      <h3 id="risultati-scritta" class="d-none">risultati della tua ricerca
+        <i class="fa-solid fa-arrow-down"></i>
+        <i onclick="index()" class="buttonBack fa-solid fa-rotate-left">back</i>
+      </h3>
 
+        <div id="scrittaNienteProdottiTrovati"></div>
         <div id="container-prodotti"></div>
     </main>
 
+    <!-- spinner -->
+    <div class="spinner-container">
+      <div id="spinner-row" class="spinner-border" role="status">
+        <span class="visually-hidden">..caricamento...</span>
+
+      </div>
+    </div>
+
     <!-- footer -->
     <footer>
-
+      
     </footer>
 
 

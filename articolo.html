@@ -23,13 +23,16 @@
   <body id="body-articolo">
     
     <header>
-      <h1>AGGIUNGI IL TUO ARTICOLO</h1>
+      <h1 id="titoloPagArticoli"></h1>
       <button id="buttonBack" onclick="index()">Torna indietro</button>
+      <button id="buttonAgg" onclick="aggArticolo()">Aggiungi un nuovo articolo</button>
     </header>
 
     <div class="container">
 
       <form id="articolo-form" class="" novalidate>
+
+        <input type="hidden" id="user-id" >
 
         <div class="mb-3">
           <label for="name" class="form-label">Nome</label>
@@ -62,18 +65,36 @@
         </div>
 
         <div id="container-save-button">
-          <button type="submit" id="save-button">Salva</button>
+          <button type="submit" class="save-button salva-button">Salva</button>
         </div>
 
       </form>
 
+
+    </div>
+
+    <div id="container-title-table">
+      <h4 class="title-table">Lista articoli presenti nella tua home:
+        <i class="fa-solid fa-arrow-down" style="color: #ffffff;"></i>
+        <i class="fa-solid fa-arrow-down" style="color: #ffffff;"></i>
+        <i class="fa-solid fa-arrow-down" style="color: #ffffff;"></i>
+      </h4>
+      
     </div>
 
     <div id="container-results">
+
         <table id="tabellaOggettiBackend">      </table>
 
     </div>
 
+
+    <div class="spinner-container">
+      <div id="spinner-row" class="spinner-border" role="status">
+        <span class="visually-hidden">..caricamento...</span>
+
+      </div>
+    </div>
   
 
     <script src="https://kit.fontawesome.com/1ec4c907d2.js" crossorigin="anonymous"></script>
