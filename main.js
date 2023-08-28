@@ -1,5 +1,5 @@
 // array carrello
-const cartItems = [];
+let cartItems = [];
 
 // scritta ricerca index.html
 let risultatiScritta = document.getElementById('risultati-scritta')
@@ -117,14 +117,28 @@ function redirectToProductDetails(productId) {
 
 // funzione per rimuovere card dal carrello
 function removeFromCart(product) {
-    const index = cartItems.findIndex(item => item.id === product.id);
+    const index = cartItems.findIndex(productId => productId === product);
     if (index !== -1) {
         cartItems.splice(index, 1);
         updateCartView();
+        totalPrice();
+        saveCartToLocalStorage();
     }
-    totalPrice();
 }
- 
+
+// funzione salva nel localStorage
+function saveCartToLocalStorage() {
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+}
+function loadCartFromLocalStorage() {
+    const cartItemsString = localStorage.getItem('cartItems');
+    if (cartItemsString) {
+        cartItems = JSON.parse(cartItemsString);
+        updateCartView();
+        totalPrice();
+    }
+}
+
 // renderizza le card
 async function renderProducts() {
 const products = await fetchData();
@@ -148,7 +162,7 @@ const products = await fetchData();
 function addToCart(product) {
     cartItems.push(product);
     updateCartView();
-
+    saveCartToLocalStorage();
     totalPrice();
 }
 
@@ -260,7 +274,7 @@ async function searchProducts(event) {
     }
 }
 
-
+loadCartFromLocalStorage();
 totalPrice();
 renderProducts();
 updateCartView();

@@ -28,6 +28,7 @@ async function fetchDati() {
         setTimeout( () => {
           document.querySelector('.spinner-container').classList.add('d-none')}, 300
         )
+        
         return data;
     } catch (error) {
         console.log('Errore nel recupero dei dati:', error);
@@ -406,7 +407,8 @@ function index() {
 
 // funzione che va alla pag che crea articoli
 function aggArticolo() {
-  window.location.href = 'articolo.html' 
+  window.location.href = 'articolo.html'
+  
 }
 
 populateTable();
