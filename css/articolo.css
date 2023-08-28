@@ -113,8 +113,11 @@ th{
 }
 
 .alrticoloResultsTable{
-    padding: 2em;
+    padding: 2em 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.386);
+    border-left: 1px solid rgba(255, 255, 255, 0.386);
+    padding-left: 10px;
+    min-width: 90px;
 }
 
 #container-title-table{
@@ -144,4 +147,24 @@ tbody{
     transform: translateX(50%) translateY(50%);
     color: greenyellow;
     z-index: 999999;
+}
+
+@media  screen and (max-width: 1060px) {
+    #container-results{
+        margin: 5px;
+        width: 100%;
+        overflow-x: scroll;
+        scale: 0.9;
+    }
+
+}
+@media  screen and (max-width: 600px) {
+    #container-results{
+        margin: 5px;
+        width: 100%;
+        max-width: 600px;
+        overflow-x: scroll;
+        scale: 0.9;
+    }
+
 }

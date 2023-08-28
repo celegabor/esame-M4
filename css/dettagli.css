@@ -8,6 +8,11 @@
     font-family: 'Shadows Into Light', cursive; */
 }
 
+h1{
+    color: white;
+    font-weight: bold;
+}
+
 .d-transparent{
     background-color: transparent !important;
 }
