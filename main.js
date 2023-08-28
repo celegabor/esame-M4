@@ -55,22 +55,14 @@ async function createProductCard(product) {
     id.classList.add('d-none');
     card.appendChild(id);
 
+    const name = document.createElement('h2');
+    name.textContent = `${product.name}`;
+    card.appendChild(name);
+
     const image = document.createElement('img');
     image.src = product.imageUrl;
     image.alt = product.name;
     card.appendChild(image);
-
-    const name = document.createElement('h2');
-    name.textContent = `NOME: ${product.name}`;
-    card.appendChild(name);
-
-    const description = document.createElement('p');
-    description.textContent = `DESCRIZIONE: ${product.description}`;
-    card.appendChild(description);
-
-    const brand = document.createElement('p');
-    brand.textContent = `BRAND: ${product.brand}`;
-    card.appendChild(brand);
 
     const price = document.createElement('p');
     price.textContent = `PREZZO: ${product.price} €`;

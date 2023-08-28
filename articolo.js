@@ -112,10 +112,15 @@ async function populateTable() {
     });
   
     cellCancella.addEventListener('click', async (event) => {event.stopPropagation();
-    
 
-    document.getElementById('titoloPagArticoli').innerHTML = '----AGGIUNGI UN NUOVO ARTICOLo----';
+          document.getElementById('titoloPagArticoli').innerHTML = '----AGGIUNGI UN NUOVO ARTICOLo----';
 
+          document.querySelector('.spinner-container').classList.remove('d-none')
+
+
+          setTimeout( () => {
+            document.querySelector('.spinner-container').classList.add('d-none')}, 300
+          )
     
         });
       });
@@ -168,7 +173,7 @@ async function cancella(productId) {
       successMessage.remove();
       
       window.location.href = 'index.html'
-    }, 2000);
+    }, 700);
 
     
   } catch (error) {
@@ -283,7 +288,7 @@ form.addEventListener('submit', async (event) => {
                 document.body.appendChild(successMessage);
                 
                 setTimeout( () => {
-                  window.location.href = 'index.html';}, 2000
+                  window.location.href = 'index.html';}, 00
                 )
                  
             } else {
@@ -311,7 +316,7 @@ form.addEventListener('submit', async (event) => {
             populateTable(); // Popola la tabella con l'oggetto appena creato
 
             setTimeout( () => {
-              window.location.href = 'index.html';}, 2000
+              window.location.href = 'index.html';}, 700
             )
 
 

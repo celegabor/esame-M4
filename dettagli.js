@@ -32,9 +32,13 @@ async function renderProductDetails(productId) {
     const product = await fetchProductDetails(productId);
     
     if (product) {
-        document.getElementById('product-name').textContent = `NOME: ${product.name}`;
+        console.log(product);
+        document.getElementById('product-name').textContent = `${product.name}`;
         document.getElementById('product-description').textContent = `DESCRIPTION: ${product.description}`;
         document.getElementById('product-brand').textContent = `BRAND: ${product.brand}`;
+        document.getElementById('product-id').textContent = `ID card: ${product._id}`;
+        document.getElementById('product-UrlImg').textContent = `Url Image: ${product.imageUrl}`;
+        document.getElementById('product-userId').textContent = `UserId: ${product.userId}`;
         document.getElementById('product-price').textContent = `PREZZO: ${product.price} €`;
         document.getElementById('product-image').src = product.imageUrl;
     } else {
