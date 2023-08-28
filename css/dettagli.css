@@ -1,12 +1,44 @@
 #body-dettagli{
     background-color: rgb(3, 129, 255);
     padding: 1em;
-    font-family: 'Caveat', cursive;
+    font-family: 'Dancing Script', cursive;
     /* font-family: 'Dancing Script', cursive;
     font-family: 'Playfair Display', serif;
     font-family: 'Roboto', sans-serif;
     font-family: 'Shadows Into Light', cursive; */
 }
+
+.d-transparent{
+    background-color: transparent !important;
+}
+
+#logo{
+    height: 3em;
+    width: 3em;
+    border-radius: 50%;
+    border: 1px solid black;
+}
+
+.navbar a{
+    transition: all 0.1s linear;
+    border-radius: 20%;
+    margin-bottom: 2px solid blue;
+    margin: 0 1em ;
+}
+
+.navbar{
+    background-color: white;
+    border-radius: 20px;
+}
+
+.navbar li:hover a{
+    background-color: rgb(3, 154, 255);
+    border-bottom: 3px solid black;
+    scale: 1.1;
+    color: white !important;
+    padding: 0.2em 0.4em !important;
+}
+
 
 #section-card-dettagli{
     width: 100%;
@@ -40,6 +72,10 @@
     margin-bottom: 1em;
 }
 
+#product-description, #product-brand{
+    font-size: 1.5em;
+}
+
 #product-price{
     width: 100%;
     text-align: end;
@@ -52,4 +88,32 @@
     height: 40vh;
     object-fit: contain;
     padding: 0.5em;
+}
+
+@media  screen and (max-width: 1000px) {
+    .product-card-dettagli{
+        width: 70vw;
+    }
+
+}
+@media  screen and (max-width: 600px) {
+    .product-card-dettagli{
+        width: 90vw;
+        scale: 0.8;
+    }
+
+}
+@media  screen and (max-width: 600px) {
+    .product-card-dettagli{
+        width: 100vw;
+        scale: 0.9;
+    }
+    .product-card-dettagli div{
+        font-size: 0.7em;
+    }
+    .product-card-dettagli{
+        width: 100vw;
+        scale: 0.9;
+    }
+
 }

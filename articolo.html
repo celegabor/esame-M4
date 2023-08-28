@@ -12,17 +12,50 @@
 
     <title>esame-M4</title>
 
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;700&family=Dancing+Script:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Roboto:wght@400;500;700&family=Shadows+Into+Light&display=swap');
-    </style>
-
     <title>Gestione utenti</title>
 
   </head>
 
   <body id="body-articolo">
-    
+
+    <!-- header -->
     <header>
+      <nav class="navbar navbar-expand-lg">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+              <img src="img/logo.avif" alt="" id="logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" onclick="index()" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" onclick="aggArticolo()" href="#">Articoli</a>
+                </li>
+                <!-- <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Dropdown
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                  </ul>
+                </li> -->
+              </ul>
+              <form class="d-flex" role="search" onsubmit="searchProducts(event)">
+                <input class="form-control me-2" type="search" id="searchInput" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+            </div>
+          </div>
+        </nav>
+  
       <h1 id="titoloPagArticoli"></h1>
       <button id="buttonBack" onclick="index()">Torna indietro</button>
       <button id="buttonAgg" onclick="aggArticolo()">Aggiungi un nuovo articolo</button>

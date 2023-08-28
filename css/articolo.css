@@ -3,6 +3,36 @@
     color: white;
 }
 
+.d-transparent{
+    background-color: transparent !important;
+}
+
+#logo{
+    height: 3em;
+    width: 3em;
+    border-radius: 50%;
+    border: 1px solid black;
+}
+
+.navbar a{
+    transition: all 0.1s linear;
+    margin-bottom: 2px solid blue;
+    margin: 0 1em ;
+}
+
+.navbar{
+    background-color: white;
+}
+
+.navbar li:hover a{
+    background-color: rgb(3, 154, 255);
+    border-bottom: 3px solid black;
+    scale: 1.1;
+    color: white !important;
+    padding: 0.2em 0.4em !important;
+}
+
+
 h1{
     width: 100%;
     text-align: center;
